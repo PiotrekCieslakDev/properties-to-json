@@ -1,5 +1,7 @@
 # Properties → JSON Converter
 
+##LINK TO WEBPAGE: [piotrcieslakdev.github.io/properties-to-json](piotrcieslakdev.github.io/properties-to-json)
+
 A single-file web tool that converts Java `.properties` content into JSON.
 
 Just open the HTML file in your browser, paste your `.properties`, and instantly get JSON on the right side.  
