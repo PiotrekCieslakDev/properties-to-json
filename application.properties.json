@@ -1,8 +1,0 @@
-{
-  "spring.application.name": "facility-management-app-backend",
-  "spring.profiles.active": "prod",
-  "jwt-access-expiration-ms": "900000",
-  "jwt-refresh-expiration-ms": "604800000",
-  "app.cookies.secure": "false",
-  "app.cookies.same-site": "Lax"
-}

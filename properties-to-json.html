@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Properties → JSON</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: #f4f4f4;
+    }
+    h1 { margin-bottom: 10px; }
+    textarea {
+      width: 100%;
+      height: 220px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #bbb;
+      font-family: monospace;
+      font-size: 14px;
+      resize: vertical;
+      background: #fff;
+    }
+    button {
+      padding: 10px 16px;
+      background: #2d6cdf;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #1f4fb8;
+    }
+    #output {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Properties → JSON</h1>
+<p>Wklej properties poniżej, kliknij „Konwertuj”, a JSON pojawi się w polu poniżej.</p>
+
+<h3>Wejście (.properties)</h3>
+<textarea id="propsInput" placeholder="spring.profiles.active=prod
+#komentarz
+jwt-access-expiration-ms=900000
+jwt-refresh-expiration-ms=604800000"></textarea>
+
+<button id="convertBtn">Konwertuj</button>
+
+<h3>Wyjście (JSON)</h3>
+<textarea id="output" readonly></textarea>
+
+<script>
+  // === ALGORYTM 1:1 PRZEPISANY Z TWOJEGO PYTHONA ===
+  function propertiesToJson(propertiesText) {
+    const result = {};
+    const lines = propertiesText.split(/\r?\n/);
+
+    for (let line of lines) {
+      line = line.trim();
+
+      // Skip empty lines and comments
+      if (!line || line.startsWith("#") || line.startsWith("spring.profiles.active", 0)) {
+        continue;
+      }
+
+      let key, value;
+
+      // Support "=" and ":"
+      if (line.includes("=")) {
+        [key, value] = line.split("=", 2);
+      } else if (line.includes(":")) {
+        [key, value] = line.split(":", 2);
+      } else {
+        continue;
+      }
+
+      key = key.trim();
+      value = value.trim();
+
+      // Remove quotes if present
+      if (
+        (value.startsWith('"') && value.endsWith('"')) ||
+        (value.startsWith("'") && value.endsWith("'"))
+      ) {
+        value = value.substring(1, value.length - 1);
+      }
+
+      result[key] = value;
+    }
+
+    return JSON.stringify(result, null, 2);
+  }
+
+  // === Obsługa przycisku ===
+  document.getElementById("convertBtn").addEventListener("click", () => {
+    const input = document.getElementById("propsInput").value;
+    const json = propertiesToJson(input);
+    document.getElementById("output").value = json;
+  });
+</script>
+
+</body>
+</html>
