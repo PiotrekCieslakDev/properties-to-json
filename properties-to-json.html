@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Properties → JSON</title>
@@ -77,21 +77,21 @@
 <button id="themeToggle">🌙 Dark mode</button>
 
 <h1>Properties → JSON</h1>
-<p>Wklej properties poniżej, kliknij „Konwertuj”, a JSON pojawi się w polu poniżej.</p>
+<p>Paste your .properties content below, click “Convert”, and the JSON output will appear below.</p>
 
-<h3>Wejście (.properties)</h3>
+<h3>Input (.properties)</h3>
 <textarea id="propsInput" placeholder="spring.profiles.active=prod
-#komentarz
+#comment
 jwt-access-expiration-ms=900000
 jwt-refresh-expiration-ms=604800000"></textarea>
 
-<button id="convertBtn">Konwertuj</button>
+<button id="convertBtn">Convert</button>
 
-<h3>Wyjście (JSON)</h3>
+<h3>Output (JSON)</h3>
 <textarea id="output" readonly></textarea>
 
 <script>
-    // === ALGORYTM TAKI JAK TWÓJ (z wyłączeniem spring.profiles.active) ===
+    // === ALGORITHM TRANSLATED 1:1 FROM THE PYTHON VERSION ===
     function propertiesToJson(propertiesText) {
         const result = {};
         const lines = propertiesText.split(/\r?\n/);
@@ -99,7 +99,7 @@ jwt-refresh-expiration-ms=604800000"></textarea>
         for (let line of lines) {
             line = line.trim();
 
-            // Skip empty lines and comments
+            // Skip empty lines, comments, and spring.profiles.active
             if (!line || line.startsWith("#") || line.startsWith("spring.profiles.active")) {
                 continue;
             }
@@ -118,7 +118,7 @@ jwt-refresh-expiration-ms=604800000"></textarea>
             key = key.trim();
             value = value.trim();
 
-            // Remove quotes if present
+            // Remove surrounding quotes if present
             if (
                 (value.startsWith('"') && value.endsWith('"')) ||
                 (value.startsWith("'") && value.endsWith("'"))
@@ -132,14 +132,14 @@ jwt-refresh-expiration-ms=604800000"></textarea>
         return JSON.stringify(result, null, 2);
     }
 
-    // === Konwersja ===
+    // === Convert button logic ===
     document.getElementById("convertBtn").addEventListener("click", () => {
         const input = document.getElementById("propsInput").value;
         const json = propertiesToJson(input);
         document.getElementById("output").value = json;
     });
 
-    // === Dark/Light Mode ===
+    // === Light/Dark theme toggle ===
     const themeToggle = document.getElementById("themeToggle");
     const body = document.body;
 
@@ -155,7 +155,7 @@ jwt-refresh-expiration-ms=604800000"></textarea>
         updateButtonText();
     });
 
-    // Odczyt preferencji z pamięci
+    // Load theme from localStorage
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
         body.classList.add("dark");
