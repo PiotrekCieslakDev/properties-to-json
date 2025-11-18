@@ -1,6 +1,6 @@
 # Properties → JSON Converter
 
-##LINK TO WEBPAGE: [piotrcieslakdev.github.io/properties-to-json](piotrcieslakdev.github.io/properties-to-json)
+##LINK TO WEBPAGE: [piotrcieslakdev.github.io/properties-to-json](https://piotrcieslakdev.github.io/properties-to-json)
 
 A single-file web tool that converts Java `.properties` content into JSON.
 
